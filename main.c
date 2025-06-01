@@ -2,6 +2,23 @@
 #include <stdlib.h>
 #include <cjson/cJSON.h>
 
+int outputValueOfScannedKey(cJSON *jsonFile)
+{
+    char *key = malloc(64);
+
+    scanf("%s", key);
+
+    cJSON *keyValPair = cJSON_GetObjectItemCaseSensitive(jsonFile, key);
+
+    if (keyValPair == NULL)
+    {
+        printf("Not found");
+        return 0;
+    }
+
+    printf("%s: %s", key, keyValPair->valuestring);
+}
+
 int main()
 {
     FILE *file = fopen("file.json", "r");
@@ -21,8 +38,6 @@ int main()
 
     free(buffer);
 
-    cJSON *email = cJSON_GetObjectItemCaseSensitive(jsonFile, "email");
-    printf("email: %s", email->valuestring);
-
+    outputValueOfScannedKey(jsonFile);
     return 0;
 }
