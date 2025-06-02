@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <curl/curl.h>
 #include <cjson/cJSON.h>
 
 int outputValueOfScannedKey(cJSON *jsonFile)
@@ -21,6 +22,21 @@ int outputValueOfScannedKey(cJSON *jsonFile)
 
 int main()
 {
+    CURL *curl;
+    curl = curl_easy_init();
+
+    CURLcode res;
+
+    curl_easy_setopt(curl, CURLOPT_URL, "https://api.nbp.pl/api/exchangerates/rates/c/usd/today/?format=json");
+
+    res = curl_easy_perform(curl);
+
+    if (res == CURLE_OK)
+    {
+        printf("ok");
+        return 0;
+    }
+
     FILE *file = fopen("file.json", "r");
     if (file == NULL)
     {
